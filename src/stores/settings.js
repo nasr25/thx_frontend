@@ -25,12 +25,13 @@ export const useSettingsStore = defineStore('settings', () => {
 
   async function fetchPublicSettings() {
     try {
-      const { data } = await api.get('/admin/settings')
+      // /settings/public requires no auth token
+      const { data } = await api.get('/settings/public')
       if (data.success) {
         settings.value = { ...settings.value, ...data.data }
       }
     } catch {
-      // Use defaults if unauthenticated
+      // Use hardcoded defaults if API unreachable
     }
   }
 
