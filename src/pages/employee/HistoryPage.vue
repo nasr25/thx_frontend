@@ -22,7 +22,7 @@
     <!-- Received tab -->
     <div v-else-if="activeTab === 'received'">
       <div v-if="received.length === 0" class="card py-16 text-center">
-        <span class="text-5xl block mb-4">💝</span>
+        <span class="text-5xl block mb-4">⭐</span>
         <p class="text-gray-500">{{ $t('history.no_received') }}</p>
       </div>
       <div v-else class="card space-y-2">
@@ -33,7 +33,7 @@
     <!-- Sent tab -->
     <div v-else>
       <div v-if="sent.length === 0" class="card py-16 text-center">
-        <span class="text-5xl block mb-4">💌</span>
+        <span class="text-5xl block mb-4">⭐</span>
         <p class="text-gray-500">{{ $t('history.no_sent') }}</p>
       </div>
       <div v-else class="card space-y-2">

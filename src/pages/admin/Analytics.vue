@@ -42,7 +42,7 @@
           <div class="flex-1 min-w-0">
             <div class="flex items-center justify-between gap-2">
               <p class="font-medium text-gray-900 truncate">{{ emp.full_name }}</p>
-              <span class="badge bg-red-50 text-red-600 shrink-0">❤️ {{ emp.count }}</span>
+              <span class="badge bg-red-50 text-red-600 shrink-0">⭐ {{ emp.count }}</span>
             </div>
             <div class="mt-1 h-2 bg-gray-100 rounded-full overflow-hidden">
               <div

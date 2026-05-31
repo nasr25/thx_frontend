@@ -29,7 +29,7 @@
       >
         <div class="flex items-start gap-4">
           <div class="w-10 h-10 rounded-full bg-indigo-100 flex items-center justify-center shrink-0">
-            <HeartIcon class="w-5 h-5 text-indigo-600" />
+            <StarIcon class="w-5 h-5 text-indigo-600" />
           </div>
           <div class="flex-1 min-w-0">
             <div class="flex items-start justify-between gap-2">
@@ -51,7 +51,7 @@
 
 <script setup>
 import { computed, onMounted } from 'vue'
-import { HeartIcon } from '@heroicons/vue/24/outline'
+import { StarIcon } from '@heroicons/vue/24/outline'
 import LoadingSpinner from '@/components/common/LoadingSpinner.vue'
 import { useNotificationStore } from '@/stores/notifications'
 

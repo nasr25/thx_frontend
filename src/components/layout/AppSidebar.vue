@@ -15,7 +15,7 @@
     <!-- Logo -->
     <div class="flex items-center gap-3 h-16 px-5 border-b border-gray-100 shrink-0">
       <div class="w-8 h-8 rounded-lg bg-indigo-600 flex items-center justify-center">
-        <HeartIcon class="w-4 h-4 text-white" />
+        <StarIcon class="w-4 h-4 text-white" />
       </div>
       <span class="font-bold text-gray-900 truncate">{{ platformName }}</span>
     </div>
@@ -55,7 +55,7 @@
 import { computed } from 'vue'
 import { useI18n } from 'vue-i18n'
 import {
-  HeartIcon, HomeIcon, MagnifyingGlassIcon, BellIcon,
+  StarIcon, HomeIcon, MagnifyingGlassIcon, BellIcon,
   ClockIcon, Cog6ToothIcon, ShieldCheckIcon
 } from '@heroicons/vue/24/outline'
 import NavItem from './NavItem.vue'

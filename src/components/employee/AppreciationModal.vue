@@ -14,7 +14,7 @@
             {{ employee?.display_name?.[0]?.toUpperCase() || '?' }}
           </div>
           <div class="absolute -bottom-1 -end-1 w-6 h-6 bg-red-500 rounded-full flex items-center justify-center">
-            <HeartIcon class="w-3.5 h-3.5 text-white" />
+            <StarIcon class="w-3.5 h-3.5 text-white" />
           </div>
         </div>
         <div>
@@ -24,10 +24,10 @@
         </div>
       </div>
 
-      <!-- Heart animation -->
+      <!-- Star animation -->
       <div class="text-center py-2">
         <div class="inline-flex gap-1">
-          <span v-for="i in 3" :key="i" class="text-2xl animate-bounce" :style="`animation-delay: ${i * 0.15}s`">❤️</span>
+          <span v-for="i in 3" :key="i" class="text-2xl animate-bounce" :style="`animation-delay: ${i * 0.15}s`">⭐</span>
         </div>
       </div>
 
@@ -87,7 +87,7 @@
 <script setup>
 import { ref, computed, watch } from 'vue'
 import { useI18n } from 'vue-i18n'
-import { HeartIcon, InformationCircleIcon, ArrowPathIcon } from '@heroicons/vue/24/outline'
+import { StarIcon, InformationCircleIcon, ArrowPathIcon } from '@heroicons/vue/24/outline'
 import { useToast } from 'vue-toastification'
 import AppModal from '@/components/common/AppModal.vue'
 import { useAppreciationStore } from '@/stores/appreciation'
@@ -127,7 +127,7 @@ async function handleSend() {
       message: message.value.trim() || null,
       is_public: isPublic.value,
     })
-    toast.success(locale.value === 'ar' ? 'تم إرسال التقدير بنجاح! ❤️' : 'Appreciation sent! ❤️')
+    toast.success(locale.value === 'ar' ? 'تم إرسال التقدير بنجاح! ⭐' : 'Appreciation sent! ⭐')
     emit('sent')
     show.value = false
   } catch (err) {

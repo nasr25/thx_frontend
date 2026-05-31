@@ -5,7 +5,7 @@
       <!-- Header -->
       <div class="bg-gradient-to-br from-indigo-600 to-purple-600 px-8 py-10 text-center">
         <div class="w-16 h-16 mx-auto mb-4 bg-white/20 rounded-2xl flex items-center justify-center">
-          <HeartIcon class="w-8 h-8 text-white" />
+          <StarIcon class="w-8 h-8 text-white" />
         </div>
         <h1 class="text-2xl font-bold text-white">{{ platformName }}</h1>
         <p class="text-indigo-100 mt-1 text-sm">{{ $t('app.tagline') }}</p>
@@ -91,7 +91,7 @@ import { ref, computed } from 'vue'
 import { useRouter, useRoute } from 'vue-router'
 import { useI18n } from 'vue-i18n'
 import {
-  HeartIcon, UserIcon, LockClosedIcon, EyeIcon, EyeSlashIcon,
+  StarIcon, UserIcon, LockClosedIcon, EyeIcon, EyeSlashIcon,
   ExclamationCircleIcon, ArrowPathIcon, BuildingOfficeIcon
 } from '@heroicons/vue/24/outline'
 import { useAuthStore }     from '@/stores/auth'

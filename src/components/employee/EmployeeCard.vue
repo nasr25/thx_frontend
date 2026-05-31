@@ -32,7 +32,7 @@
     <!-- Stats -->
     <div class="flex items-center justify-between pt-2 border-t border-gray-50">
       <div class="flex items-center gap-1.5 text-sm text-gray-500">
-        <HeartIcon class="w-4 h-4 text-red-400" />
+        <StarIcon class="w-4 h-4 text-red-400" />
         <span class="font-semibold text-gray-700">{{ employee.total_appreciations || 0 }}</span>
         <span class="text-xs">{{ $t('employees.total_appreciations') }}</span>
       </div>
@@ -41,7 +41,7 @@
         @click="$emit('appreciate', employee)"
         class="btn-primary py-1.5 px-3 text-sm"
       >
-        <HeartIcon class="w-4 h-4" />
+        <StarIcon class="w-4 h-4" />
         {{ $t('employees.appreciate') }}
       </button>
     </div>
@@ -49,7 +49,7 @@
 </template>
 
 <script setup>
-import { HeartIcon } from '@heroicons/vue/24/outline'
+import { StarIcon } from '@heroicons/vue/24/outline'
 
 defineProps({ employee: { type: Object, required: true } })
 defineEmits(['appreciate'])

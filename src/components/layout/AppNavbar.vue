@@ -12,7 +12,7 @@
         </button>
         <RouterLink to="/dashboard" class="flex items-center gap-2.5">
           <div class="w-8 h-8 rounded-lg bg-indigo-600 flex items-center justify-center">
-            <HeartIcon class="w-4 h-4 text-white" />
+            <StarIcon class="w-4 h-4 text-white" />
           </div>
           <span class="font-bold text-gray-900 text-lg hidden sm:block">{{ platformName }}</span>
         </RouterLink>
@@ -116,7 +116,7 @@
 import { ref, computed, onMounted, onUnmounted } from 'vue'
 import { useI18n } from 'vue-i18n'
 import {
-  Bars3Icon, BellIcon, ChevronDownIcon, HeartIcon,
+  Bars3Icon, BellIcon, ChevronDownIcon, StarIcon,
   Cog6ToothIcon, ShieldCheckIcon, ComputerDesktopIcon
 } from '@heroicons/vue/24/outline'
 import LanguageSwitcher from '@/components/common/LanguageSwitcher.vue'

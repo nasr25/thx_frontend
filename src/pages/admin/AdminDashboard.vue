@@ -67,7 +67,7 @@
               </td>
               <td class="py-3 hidden sm:table-cell text-gray-500">{{ emp.department }}</td>
               <td class="py-3 text-end">
-                <span class="badge bg-red-50 text-red-600">❤️ {{ emp.count }}</span>
+                <span class="badge bg-red-50 text-red-600">⭐ {{ emp.count }}</span>
               </td>
             </tr>
           </tbody>
@@ -93,7 +93,7 @@ const topAppreciated = ref([])
 const loading        = ref(false)
 
 const overviewStats = computed(() => [
-  { key: 'total', value: overview.value.total_appreciations || 0, label: t('admin.total_appreciations'), icon: '❤️', color: 'text-red-600' },
+  { key: 'total', value: overview.value.total_appreciations || 0, label: t('admin.total_appreciations'), icon: '⭐', color: 'text-red-600' },
   { key: 'monthly', value: overview.value.monthly_appreciations || 0, label: t('admin.monthly_appreciations'), icon: '📅', color: 'text-indigo-600' },
   { key: 'employees', value: overview.value.total_employees || 0, label: t('admin.total_employees'), icon: '👥', color: 'text-green-600' },
   { key: 'engagement', value: `${overview.value.engagement_rate || 0}%`, label: t('admin.engagement_rate'), icon: '📈', color: 'text-purple-600' },

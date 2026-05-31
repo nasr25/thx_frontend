@@ -58,14 +58,14 @@
     "message_label": "Thank you message (optional)",
     "message_placeholder": "Write a heartfelt message...",
     "is_public": "Make this appreciation public",
-    "send_button": "Send Appreciation ❤️",
+    "send_button": "Send Appreciation ⭐",
     "success": "Appreciation sent successfully!",
     "remaining": "{count} appreciations remaining this month",
     "limit_reached": "You have reached your monthly limit",
     "from": "From",
     "to": "To",
-    "no_message": "❤️ Appreciation without message",
-    "heart": "❤️"
+    "no_message": "⭐ Appreciation without message",
+    "heart": "⭐"
   },
   "profile": {
     "title": "Employee Profile",

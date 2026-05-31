@@ -82,7 +82,7 @@ import { computed } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { useRouter } from 'vue-router'
 import {
-  ShieldCheckIcon, HomeIcon, Cog6ToothIcon, HeartIcon,
+  ShieldCheckIcon, HomeIcon, Cog6ToothIcon, StarIcon,
   ClipboardDocumentListIcon, ChartBarIcon,
   ArrowLeftIcon, ArrowRightOnRectangleIcon
 } from '@heroicons/vue/24/outline'
@@ -102,7 +102,7 @@ const platformName = computed(() => locale.value === 'ar' ? settings.settings.pl
 const adminNavItems = computed(() => [
   { to: '/admin/dashboard',     label: t('admin.dashboard'),               icon: HomeIcon },
   { to: '/admin/settings',      label: t('admin.settings'),                icon: Cog6ToothIcon },
-  { to: '/admin/appreciations', label: t('admin.appreciation_management'), icon: HeartIcon },
+  { to: '/admin/appreciations', label: t('admin.appreciation_management'), icon: StarIcon },
   { to: '/admin/activity-logs', label: t('admin.activity_logs'),           icon: ClipboardDocumentListIcon },
   { to: '/admin/analytics',     label: t('admin.analytics'),               icon: ChartBarIcon },
 ])

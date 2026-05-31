@@ -34,7 +34,7 @@
           <!-- Actions -->
           <div v-if="!isSelf">
             <button @click="showModal = true" class="btn-primary">
-              <HeartIcon class="w-4 h-4" />
+              <StarIcon class="w-4 h-4" />
               {{ $t('employees.appreciate') }}
             </button>
           </div>
@@ -58,7 +58,7 @@
         <h2 class="text-lg font-semibold text-gray-900 mb-4">{{ $t('profile.appreciation_history') }}</h2>
 
         <div v-if="appreciations.length === 0" class="py-8 text-center text-gray-500">
-          <span class="text-4xl block mb-3">💝</span>
+          <span class="text-4xl block mb-3">⭐</span>
           {{ $t('profile.no_history') }}
         </div>
 
@@ -84,7 +84,7 @@
 <script setup>
 import { ref, computed, onMounted } from 'vue'
 import { useRoute } from 'vue-router'
-import { HeartIcon } from '@heroicons/vue/24/outline'
+import { StarIcon } from '@heroicons/vue/24/outline'
 import LoadingSpinner    from '@/components/common/LoadingSpinner.vue'
 import AppreciationItem  from '@/components/employee/AppreciationItem.vue'
 import AppreciationModal from '@/components/employee/AppreciationModal.vue'

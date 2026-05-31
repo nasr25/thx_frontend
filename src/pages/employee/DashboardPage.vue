@@ -62,7 +62,7 @@
               {{ locale === 'ar' ? 'إجمالي التقديرات' : 'Total Thanks Received' }}
             </p>
           </div>
-          <span class="text-3xl">❤️</span>
+          <span class="text-3xl">⭐</span>
         </div>
       </div>
 
@@ -147,7 +147,7 @@
         <LoadingSpinner v-if="loading" size="sm" />
 
         <div v-else-if="!latestAppreciations.length" class="py-10 text-center">
-          <span class="text-4xl block mb-3">💝</span>
+          <span class="text-4xl block mb-3">⭐</span>
           <p class="text-sm text-gray-500">
             {{ locale === 'ar' ? 'لا توجد تقديرات بعد. كن أول من يُقدّر زميله!' : 'No appreciations yet. Be the first to appreciate someone!' }}
           </p>
@@ -204,7 +204,7 @@
 
             <!-- Count -->
             <div class="flex items-center gap-1 text-xs text-gray-500 shrink-0">
-              <HeartIcon class="w-3.5 h-3.5 text-red-400" />
+              <StarIcon class="w-3.5 h-3.5 text-red-400" />
               <span class="font-semibold">{{ emp.appreciation_count ?? emp.received_appreciations_count ?? 0 }}</span>
             </div>
           </RouterLink>
@@ -222,7 +222,7 @@
 <script setup>
 import { computed, onMounted } from 'vue'
 import { useI18n } from 'vue-i18n'
-import { HeartIcon, BuildingOfficeIcon, ArrowPathIcon } from '@heroicons/vue/24/outline'
+import { StarIcon, BuildingOfficeIcon, ArrowPathIcon } from '@heroicons/vue/24/outline'
 import LoadingSpinner   from '@/components/common/LoadingSpinner.vue'
 import AppreciationItem from '@/components/employee/AppreciationItem.vue'
 import { useAppreciationStore } from '@/stores/appreciation'
