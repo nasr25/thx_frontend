@@ -8,9 +8,9 @@ export const authService = {
    * Returns { user, token, expires_at } on success.
    */
   async windowsLogin() {
-    const { data } = await api.get('/auth/windows', {
-      withCredentials: true, // required for Windows/NTLM credential forwarding
-    })
+    // Vite proxy forwards this to localhost:8000 transparently.
+    // No withCredentials override needed — the api instance already handles it.
+    const { data } = await api.get('/auth/windows')
     return data
   },
 
