@@ -15,14 +15,25 @@
         <div class="w-16 h-16 mx-auto mb-5 bg-red-50 rounded-2xl flex items-center justify-center">
           <ExclamationCircleIcon class="w-8 h-8 text-red-500" />
         </div>
-        <h2 class="text-lg font-semibold text-gray-900">Authentication Failed</h2>
-        <p class="text-sm text-gray-500 mt-2 mb-6">
-          Could not verify your Windows identity. Make sure you are connected to the corporate network.
+        <h2 class="text-lg font-semibold text-gray-900">Could not sign you in</h2>
+        <p class="text-sm text-gray-500 mt-2 mb-2">
+          {{ errorDetail || 'Windows authentication is unavailable.' }}
         </p>
-        <button @click="retry" class="btn-primary w-full">
-          <ArrowPathIcon class="w-4 h-4" />
-          Try Again
-        </button>
+        <p class="text-xs text-gray-400 mb-6">
+          This usually means the app is not running on IIS with Windows Authentication,
+          or you are off the corporate network.
+        </p>
+
+        <div class="space-y-2">
+          <button @click="retry" class="btn-primary w-full">
+            <ArrowPathIcon class="w-4 h-4" />
+            Try Again
+          </button>
+          <RouterLink to="/admin/login" class="btn-secondary w-full">
+            <ShieldCheckIcon class="w-4 h-4" />
+            Sign in as Administrator
+          </RouterLink>
+        </div>
       </template>
     </div>
   </div>
@@ -31,20 +42,22 @@
 <script setup>
 import { ref, onMounted } from 'vue'
 import { useRouter, useRoute } from 'vue-router'
-import { ExclamationCircleIcon, ArrowPathIcon } from '@heroicons/vue/24/outline'
+import { ExclamationCircleIcon, ArrowPathIcon, ShieldCheckIcon } from '@heroicons/vue/24/outline'
 import { useAuthStore } from '@/stores/auth'
 
-const router    = useRouter()
-const route     = useRoute()
-const authStore = useAuthStore()
-const failed    = ref(false)
+const router      = useRouter()
+const route       = useRoute()
+const authStore   = useAuthStore()
+const failed      = ref(false)
+const errorDetail = ref('')
 
 onMounted(async () => {
   try {
     await authStore.windowsLogin()
     const redirect = route.query.redirect || '/dashboard'
     router.replace(redirect)
-  } catch {
+  } catch (err) {
+    errorDetail.value = err.response?.data?.message || ''
     failed.value = true
   }
 })

@@ -109,34 +109,31 @@ const router = createRouter({
   scrollBehavior: () => ({ top: 0 }),
 })
 
-router.beforeEach(async (to, from, next) => {
+router.beforeEach((to, from, next) => {
   const auth = useAuthStore()
 
-  // Guest-only page (admin login) — redirect to admin dashboard if already logged in
-  if (to.meta.requiresGuest) {
-    if (auth.isAuthenticated && auth.isAdmin) {
-      return next({ name: 'admin-dashboard' })
-    }
+  // Already heading to an auth page — always allow (prevents redirect loops)
+  if (['admin-login', 'authenticating'].includes(to.name)) {
     return next()
   }
 
-  // Admin panel requires admin role
+  // Admin-only: redirect unauthenticated to admin login, non-admins to dashboard
   if (to.meta.requiresAdmin) {
-    if (!auth.isAuthenticated) {
-      return next({ name: 'admin-login' })
-    }
-    if (!auth.isAdmin) {
-      return next({ name: 'dashboard' })
-    }
+    if (!auth.isAuthenticated) return next({ name: 'admin-login' })
+    if (!auth.isAdmin)         return next({ name: 'dashboard' })
     return next()
   }
 
-  // Employee pages: if already authenticated, pass through
+  // Guest-only (admin login shown): redirect if already authenticated as admin
+  if (to.meta.requiresGuest) {
+    if (auth.isAuthenticated && auth.isAdmin) return next({ name: 'admin-dashboard' })
+    return next()
+  }
+
+  // Protected employee pages
   if (to.meta.requiresAuth) {
-    if (auth.isAuthenticated) {
-      return next()
-    }
-    // Not authenticated — let App.vue handle Windows Auth; go to loading screen
+    if (auth.isAuthenticated) return next()
+    // Not authenticated — send to /authenticating which tries Windows Auth once
     return next({ name: 'authenticating', query: { redirect: to.fullPath } })
   }
 

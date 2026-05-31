@@ -25,23 +25,26 @@ api.interceptors.request.use((config) => {
 // ── Response interceptor ────────────────────────────────────────────────────
 api.interceptors.response.use(
   (response) => response,
-  async (error) => {
+  (error) => {
     const status = error.response?.status
     const code   = error.response?.data?.code
+    const url    = error.config?.url || ''
 
-    if (status === 401 && code !== 'WINDOWS_AUTH_REQUIRED') {
-      // Token expired — clear session and re-attempt Windows auth
+    // Only redirect on 401 (expired/invalid token).
+    // Never redirect on 4xx/5xx from auth endpoints — those are handled by the
+    // calling code (windowsLogin, adminLogin) and must NOT cause a redirect loop.
+    const isAuthEndpoint = url.includes('/auth/windows') || url.includes('/auth/admin/login')
+
+    if (status === 401 && !isAuthEndpoint && code !== 'WINDOWS_AUTH_REQUIRED') {
       sessionStorage.removeItem('auth_token')
       sessionStorage.removeItem('auth_user')
       localStorage.removeItem('auth_token')
 
-      // For admin form sessions, redirect to admin login
       const method = sessionStorage.getItem('auth_method')
-      if (method === 'admin_form') {
-        window.location.href = '/admin/login'
-      } else {
-        // For Windows auth sessions, reload triggers IIS re-authentication
-        window.location.href = '/authenticating'
+      // Only redirect if not already on an auth page
+      if (!window.location.pathname.includes('/admin/login') &&
+          !window.location.pathname.includes('/authenticating')) {
+        window.location.href = method === 'admin_form' ? '/admin/login' : '/authenticating'
       }
     }
 

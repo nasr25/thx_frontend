@@ -28,49 +28,38 @@ const currentLayout = computed(() => {
 })
 
 onMounted(async () => {
-  // 1. Restore saved language immediately (before auth, for faster render)
+  // Restore language first for instant render
   const savedLang = localStorage.getItem('preferred_language') || 'en'
   locale.value = savedLang
   applyDirection(savedLang)
 
-  // 2. Load platform settings (branding, colors)
-  await settings.fetchPublicSettings()
+  // Load public branding (no auth needed)
+  settings.fetchPublicSettings()
 
-  // 3. If already have a valid token in storage, restore the session
-  if (authStore.token && !authStore.user) {
-    await authStore.fetchMe()
+  // Restore existing session from storage
+  if (authStore.token) {
+    if (!authStore.user) await authStore.fetchMe()
+    // Session restored — router guard will allow navigation
+    return
   }
 
-  // 4. If still not authenticated, attempt Windows Auto-Login
-  //    This ONLY works when the app is served from IIS with Windows Auth enabled
-  //    on the /api/auth/windows endpoint.
-  if (!authStore.isAuthenticated) {
+  // No token — attempt Windows auto-login once (not on auth pages)
+  const authPages = ['admin-login', 'authenticating']
+  if (!authPages.includes(route.name)) {
     await attemptWindowsAuth()
-  }
-
-  // 5. Apply user's language preference (may differ from saved)
-  if (authStore.user?.preferred_language) {
-    locale.value = authStore.user.preferred_language
-    applyDirection(authStore.user.preferred_language)
   }
 })
 
 async function attemptWindowsAuth() {
-  // Don't attempt Windows auth if visiting the admin login page
-  if (route.name === 'admin-login') return
-
   try {
     await authStore.windowsLogin()
-
-    // Redirect to originally requested page if coming from /authenticating
-    const redirect = route.query.redirect
-    if (redirect) {
-      router.push(redirect)
+    // Success — apply user language and let router handle the current route
+    if (authStore.user?.preferred_language) {
+      locale.value = authStore.user.preferred_language
+      applyDirection(authStore.user.preferred_language)
     }
   } catch {
-    // Windows Auth failed (off-domain, no IIS Windows Auth, etc.)
-    // Admin routes will redirect to /admin/login automatically via router guard.
-    // Employee routes show the "authenticating failed" state.
+    // Failed — router guard will redirect to /authenticating
   }
 }
 
