@@ -47,7 +47,13 @@ export const useAuthStore = defineStore('auth', () => {
         return res.data
       }
     } catch (err) {
-      error.value = err.response?.data?.message || 'Login failed'
+      if (err.response) {
+        // Server responded — show its message (e.g. invalid credentials)
+        error.value = err.response.data?.message || 'Login failed'
+      } else {
+        // No response = network/CORS error = backend unreachable
+        error.value = 'Cannot reach the server. Make sure the backend is running (php artisan serve).'
+      }
       throw err
     } finally {
       loading.value = false
