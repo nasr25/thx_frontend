@@ -2,10 +2,10 @@
   <div class="min-h-screen bg-gray-50 flex" :dir="isRtl ? 'rtl' : 'ltr'">
 
     <!-- Admin Sidebar -->
-    <aside class="hidden lg:flex flex-col w-64 bg-gray-900 text-white shrink-0">
+    <aside class="hidden lg:flex flex-col w-64 text-white shrink-0" style="background-color: #000A0F">
       <!-- Logo -->
-      <div class="flex items-center gap-3 h-16 px-5 border-b border-gray-700">
-        <div class="w-8 h-8 rounded-lg bg-indigo-500 flex items-center justify-center">
+      <div class="flex items-center gap-3 h-16 px-5 border-b border-white/10">
+        <div class="w-8 h-8 rounded-lg flex items-center justify-center" style="background-color: #004137">
           <ShieldCheckIcon class="w-4 h-4 text-white" />
         </div>
         <div>
@@ -21,7 +21,8 @@
           :key="item.to"
           :to="item.to"
           class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium transition-all"
-          :class="$route.path.startsWith(item.to) ? 'bg-indigo-600 text-white' : 'text-gray-400 hover:bg-gray-800 hover:text-white'"
+          :class="$route.path.startsWith(item.to) ? 'text-white' : 'text-gray-400 hover:bg-white/5 hover:text-white'"
+          :style="$route.path.startsWith(item.to) ? 'background-color: #004137' : ''"
         >
           <component :is="item.icon" class="w-5 h-5 shrink-0" />
           {{ item.label }}
@@ -29,7 +30,7 @@
       </nav>
 
       <!-- Bottom links -->
-      <div class="px-3 pb-4 space-y-1 border-t border-gray-700 pt-4">
+      <div class="px-3 pb-4 space-y-1 border-t border-white/10 pt-4">
         <RouterLink
           to="/dashboard"
           class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm text-gray-400 hover:bg-gray-800 hover:text-white transition-all"
@@ -83,7 +84,7 @@ import { useI18n } from 'vue-i18n'
 import { useRouter } from 'vue-router'
 import {
   ShieldCheckIcon, HomeIcon, Cog6ToothIcon, StarIcon,
-  ClipboardDocumentListIcon, ChartBarIcon,
+  ClipboardDocumentListIcon, ChartBarIcon, UsersIcon,
   ArrowLeftIcon, ArrowRightOnRectangleIcon
 } from '@heroicons/vue/24/outline'
 import LanguageSwitcher from '@/components/common/LanguageSwitcher.vue'
@@ -103,6 +104,7 @@ const adminNavItems = computed(() => [
   { to: '/admin/dashboard',     label: t('admin.dashboard'),               icon: HomeIcon },
   { to: '/admin/settings',      label: t('admin.settings'),                icon: Cog6ToothIcon },
   { to: '/admin/appreciations', label: t('admin.appreciation_management'), icon: StarIcon },
+  { to: '/admin/users',         label: t('admin.user_management'),         icon: UsersIcon },
   { to: '/admin/activity-logs', label: t('admin.activity_logs'),           icon: ClipboardDocumentListIcon },
   { to: '/admin/analytics',     label: t('admin.analytics'),               icon: ChartBarIcon },
 ])

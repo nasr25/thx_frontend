@@ -2,7 +2,7 @@
   <div class="w-full max-w-md animate-slide-up">
     <div class="bg-white rounded-3xl shadow-2xl overflow-hidden">
       <!-- Header -->
-      <div class="bg-gradient-to-br from-gray-800 to-gray-900 px-8 py-10 text-center">
+      <div class="px-8 py-10 text-center" style="background-image: linear-gradient(to bottom right, #00281E, #000A0F)">
         <div class="w-16 h-16 mx-auto mb-4 bg-white/10 rounded-2xl flex items-center justify-center">
           <ShieldCheckIcon class="w-8 h-8 text-white" />
         </div>

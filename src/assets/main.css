@@ -3,9 +3,14 @@
 @import 'tailwindcss/utilities';
 
 :root {
-  --color-primary: #6366f1;
-  --color-secondary: #f59e0b;
-  --color-accent: #10b981;
+  /* Brand palette — dark teal */
+  --brand-darkest: #000A0F;  /* near-black, deep backgrounds / admin sidebar */
+  --brand-dark:    #00281E;  /* very dark green, hover / gradient stop */
+  --brand:         #004137;  /* primary action / accent */
+
+  --color-primary:   #004137;
+  --color-secondary: #00281E;
+  --color-accent:    #004137;
 }
 
 /* RTL Support */
@@ -29,7 +34,11 @@
     @apply bg-white rounded-2xl shadow-sm border border-gray-100 p-6;
   }
   .btn-primary {
-    @apply inline-flex items-center justify-center gap-2 px-4 py-2.5 bg-indigo-600 text-white font-medium rounded-xl hover:bg-indigo-700 active:scale-95 transition-all duration-150 disabled:opacity-50 disabled:cursor-not-allowed;
+    @apply inline-flex items-center justify-center gap-2 px-4 py-2.5 text-white font-medium rounded-xl active:scale-95 transition-all duration-150 disabled:opacity-50 disabled:cursor-not-allowed;
+    background-color: var(--brand);
+  }
+  .btn-primary:hover:not(:disabled) {
+    background-color: var(--brand-dark);
   }
   .btn-secondary {
     @apply inline-flex items-center justify-center gap-2 px-4 py-2.5 bg-white text-gray-700 font-medium rounded-xl border border-gray-200 hover:bg-gray-50 active:scale-95 transition-all duration-150 disabled:opacity-50;
@@ -38,7 +47,10 @@
     @apply inline-flex items-center justify-center gap-2 px-4 py-2.5 bg-red-600 text-white font-medium rounded-xl hover:bg-red-700 active:scale-95 transition-all duration-150;
   }
   .input {
-    @apply w-full px-4 py-2.5 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent bg-white placeholder:text-gray-400 transition-all;
+    @apply w-full px-4 py-2.5 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:border-transparent bg-white placeholder:text-gray-400 transition-all;
+  }
+  .input:focus {
+    --tw-ring-color: var(--brand);
   }
   .label {
     @apply block text-sm font-medium text-gray-700 mb-1.5;

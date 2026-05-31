@@ -3,7 +3,7 @@
     <!-- Card -->
     <div class="bg-white rounded-3xl shadow-2xl overflow-hidden">
       <!-- Header -->
-      <div class="bg-gradient-to-br from-indigo-600 to-purple-600 px-8 py-10 text-center">
+      <div class="px-8 py-10 text-center" style="background-image: linear-gradient(to bottom right, #004137, #000A0F)">
         <div class="w-16 h-16 mx-auto mb-4 bg-white/20 rounded-2xl flex items-center justify-center">
           <StarIcon class="w-8 h-8 text-white" />
         </div>

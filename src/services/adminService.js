@@ -7,6 +7,22 @@ export const adminService = {
     return data
   },
 
+  // User management
+  async getUsers(params = {}) {
+    const { data } = await api.get('/admin/users', { params })
+    return data
+  },
+
+  async setUserAdmin(id, isAdmin) {
+    const { data } = await api.put(`/admin/users/${id}/role`, { is_admin: isAdmin })
+    return data
+  },
+
+  async setUserStatus(id, isActive) {
+    const { data } = await api.put(`/admin/users/${id}/status`, { is_active: isActive })
+    return data
+  },
+
   // Settings
   async getSettings() {
     const { data } = await api.get('/admin/settings')

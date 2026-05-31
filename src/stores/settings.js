@@ -7,9 +7,9 @@ export const useSettingsStore = defineStore('settings', () => {
   const settings = ref({
     platform_name_en: 'Appreciation Platform',
     platform_name_ar: 'منصة التقدير',
-    primary_color:    '#6366f1',
-    secondary_color:  '#f59e0b',
-    accent_color:     '#10b981',
+    primary_color:    '#004137',
+    secondary_color:  '#00281E',
+    accent_color:     '#000A0F',
     logo_path:        null,
     monthly_appreciation_limit:  10,
     max_daily_appreciations:     5,

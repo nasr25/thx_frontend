@@ -11,7 +11,7 @@
           <Bars3Icon class="w-5 h-5" />
         </button>
         <RouterLink to="/dashboard" class="flex items-center gap-2.5">
-          <div class="w-8 h-8 rounded-lg bg-indigo-600 flex items-center justify-center">
+          <div class="w-8 h-8 rounded-lg flex items-center justify-center" style="background-color: #004137">
             <StarIcon class="w-4 h-4 text-white" />
           </div>
           <span class="font-bold text-gray-900 text-lg hidden sm:block">{{ platformName }}</span>

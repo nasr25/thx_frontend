@@ -2,7 +2,8 @@
   <div class="space-y-6 animate-fade-in">
 
     <!-- ── Welcome Card ─────────────────────────────────────────────────────── -->
-    <div class="relative overflow-hidden rounded-2xl bg-gradient-to-r from-indigo-600 via-indigo-500 to-purple-600 p-6 text-white shadow-lg">
+    <div class="relative overflow-hidden rounded-2xl p-6 text-white shadow-lg"
+         style="background-image: linear-gradient(to right, #00281E, #004137, #00281E)">
       <!-- Decorative circles -->
       <div class="absolute -top-8 -end-8 w-32 h-32 rounded-full bg-white/10" />
       <div class="absolute -bottom-6 -start-6 w-24 h-24 rounded-full bg-white/5" />
@@ -134,7 +135,7 @@
     <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
 
       <!-- Latest Appreciations received -->
-      <div class="lg:col-span-2 card">
+      <div class="card" :class="isAdmin ? 'lg:col-span-2' : 'lg:col-span-3'">
         <div class="flex items-center justify-between mb-4">
           <h2 class="text-base font-semibold text-gray-900">
             {{ locale === 'ar' ? 'أحدث التقديرات المستلمة' : 'Latest Appreciations Received' }}
@@ -166,8 +167,8 @@
         </div>
       </div>
 
-      <!-- Leaderboard -->
-      <div class="card">
+      <!-- Leaderboard — admins only -->
+      <div v-if="isAdmin" class="card">
         <h2 class="text-base font-semibold text-gray-900 mb-4 flex items-center gap-2">
           🏆 {{ locale === 'ar' ? 'الأكثر تقديراً' : 'Top Appreciated' }}
         </h2>
@@ -233,6 +234,7 @@ const apprStore  = useAppreciationStore()
 const authStore  = useAuthStore()
 
 const user    = computed(() => authStore.user)
+const isAdmin = computed(() => authStore.isAdmin)
 const loading = computed(() => apprStore.loading)
 const stats   = computed(() => apprStore.dashboard?.stats)
 const latestAppreciations = computed(() => apprStore.dashboard?.latest_appreciations || [])

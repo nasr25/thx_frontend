@@ -87,6 +87,12 @@ const routes = [
     component: () => import('@/pages/admin/Analytics.vue'),
     meta: { requiresAuth: true, requiresAdmin: true, layout: 'admin' },
   },
+  {
+    path: '/admin/users',
+    name: 'admin-users',
+    component: () => import('@/pages/admin/UserManagement.vue'),
+    meta: { requiresAuth: true, requiresAdmin: true, layout: 'admin' },
+  },
 
   // ── Loading screen (shown while Windows Auth is in progress) ──────────────
   {
