@@ -18,15 +18,6 @@ export const adminService = {
     return data
   },
 
-  async uploadLogo(file) {
-    const form = new FormData()
-    form.append('logo', file)
-    const { data } = await api.post('/admin/settings/logo', form, {
-      headers: { 'Content-Type': 'multipart/form-data' },
-    })
-    return data
-  },
-
   // Appreciations
   async getAppreciations(params = {}) {
     const { data } = await api.get('/admin/appreciations', { params })

@@ -19,31 +19,6 @@
             <input v-model="form.platform_name_ar" type="text" class="input" dir="rtl" />
           </div>
         </div>
-
-        <!-- Logo upload -->
-        <div>
-          <label class="label">{{ $t('admin.upload_logo') }}</label>
-          <div class="flex items-center gap-4">
-            <img v-if="settingsStore.logoUrl" :src="settingsStore.logoUrl" alt="Logo" class="w-16 h-16 object-contain rounded-xl border border-gray-200" />
-            <div v-else class="w-16 h-16 rounded-xl bg-gray-100 flex items-center justify-center">
-              <PhotoIcon class="w-6 h-6 text-gray-400" />
-            </div>
-            <div>
-              <input
-                ref="logoInput"
-                type="file"
-                accept=".png,.jpg,.jpeg,.svg"
-                class="hidden"
-                @change="handleLogoUpload"
-              />
-              <button type="button" @click="logoInput?.click()" class="btn-secondary">
-                <ArrowUpTrayIcon class="w-4 h-4" />
-                Upload Logo
-              </button>
-              <p class="text-xs text-gray-400 mt-1">PNG, JPG, SVG (max 2MB)</p>
-            </div>
-          </div>
-        </div>
       </div>
 
       <!-- Theme Colors -->
@@ -113,13 +88,12 @@
 
 <script setup>
 import { ref, reactive, onMounted } from 'vue'
-import { PhotoIcon, ArrowUpTrayIcon, ArrowPathIcon } from '@heroicons/vue/24/outline'
+import { ArrowPathIcon } from '@heroicons/vue/24/outline'
 import { useToast } from 'vue-toastification'
 import { useSettingsStore } from '@/stores/settings'
 
 const toast         = useToast()
 const settingsStore = useSettingsStore()
-const logoInput     = ref(null)
 const saving        = ref(false)
 
 const form = reactive({
@@ -147,17 +121,6 @@ async function saveSettings() {
     toast.error('Failed to save settings')
   } finally {
     saving.value = false
-  }
-}
-
-async function handleLogoUpload(e) {
-  const file = e.target.files[0]
-  if (!file) return
-  try {
-    await settingsStore.uploadLogo(file)
-    toast.success('Logo uploaded!')
-  } catch {
-    toast.error('Failed to upload logo')
   }
 }
 </script>

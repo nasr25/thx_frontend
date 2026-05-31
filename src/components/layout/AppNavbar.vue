@@ -11,8 +11,7 @@
           <Bars3Icon class="w-5 h-5" />
         </button>
         <RouterLink to="/dashboard" class="flex items-center gap-2.5">
-          <img v-if="logoUrl" :src="logoUrl" alt="Logo" class="h-8 w-8 object-contain rounded-lg" />
-          <div v-else class="w-8 h-8 rounded-lg bg-indigo-600 flex items-center justify-center">
+          <div class="w-8 h-8 rounded-lg bg-indigo-600 flex items-center justify-center">
             <HeartIcon class="w-4 h-4 text-white" />
           </div>
           <span class="font-bold text-gray-900 text-lg hidden sm:block">{{ platformName }}</span>
@@ -138,7 +137,6 @@ const user         = computed(() => authStore.user)
 const isAdmin      = computed(() => authStore.isAdmin)
 const isRtl        = computed(() => locale.value === 'ar')
 const unreadCount  = computed(() => notifStore.unreadCount)
-const logoUrl      = computed(() => settings.logoUrl)
 const expiresAt    = computed(() => authStore.expiresAt)
 const platformName = computed(() => locale.value === 'ar' ? settings.settings.platform_name_ar : settings.settings.platform_name_en)
 

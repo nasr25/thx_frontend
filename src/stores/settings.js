@@ -21,7 +21,6 @@ export const useSettingsStore = defineStore('settings', () => {
 
   const primaryColor   = computed(() => settings.value.primary_color || '#6366f1')
   const secondaryColor = computed(() => settings.value.secondary_color || '#f59e0b')
-  const logoUrl        = computed(() => settings.value.logo_path ? `/storage/${settings.value.logo_path}` : null)
 
   async function fetchPublicSettings() {
     try {
@@ -60,17 +59,9 @@ export const useSettingsStore = defineStore('settings', () => {
     }
   }
 
-  async function uploadLogo(file) {
-    const res = await adminService.uploadLogo(file)
-    if (res.success) {
-      await fetchSettings()
-    }
-    return res
-  }
-
   return {
     settings, loading,
-    primaryColor, secondaryColor, logoUrl,
-    fetchPublicSettings, fetchSettings, updateSettings, uploadLogo,
+    primaryColor, secondaryColor,
+    fetchPublicSettings, fetchSettings, updateSettings,
   }
 })
