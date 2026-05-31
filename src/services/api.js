@@ -1,0 +1,53 @@
+import axios from 'axios'
+
+const api = axios.create({
+  baseURL: import.meta.env.VITE_API_URL || '/api',
+  headers: {
+    'Content-Type': 'application/json',
+    'Accept':       'application/json',
+  },
+  withCredentials: true, // Required for Windows NTLM/Kerberos auth and cookies
+})
+
+// ── Request interceptor ─────────────────────────────────────────────────────
+api.interceptors.request.use((config) => {
+  // Session token (Windows auth) takes priority over persistent admin token
+  const token = sessionStorage.getItem('auth_token') || localStorage.getItem('auth_token')
+  if (token) {
+    config.headers.Authorization = `Bearer ${token}`
+  }
+
+  const lang = localStorage.getItem('preferred_language') || 'en'
+  config.headers['Accept-Language'] = lang
+
+  return config
+})
+
+// ── Response interceptor ────────────────────────────────────────────────────
+api.interceptors.response.use(
+  (response) => response,
+  async (error) => {
+    const status = error.response?.status
+    const code   = error.response?.data?.code
+
+    if (status === 401 && code !== 'WINDOWS_AUTH_REQUIRED') {
+      // Token expired — clear session and re-attempt Windows auth
+      sessionStorage.removeItem('auth_token')
+      sessionStorage.removeItem('auth_user')
+      localStorage.removeItem('auth_token')
+
+      // For admin form sessions, redirect to admin login
+      const method = sessionStorage.getItem('auth_method')
+      if (method === 'admin_form') {
+        window.location.href = '/admin/login'
+      } else {
+        // For Windows auth sessions, reload triggers IIS re-authentication
+        window.location.href = '/authenticating'
+      }
+    }
+
+    return Promise.reject(error)
+  }
+)
+
+export default api
