@@ -10,9 +10,13 @@ const api = axios.create({
 
 // ── Request interceptor ─────────────────────────────────────────────────────
 api.interceptors.request.use((config) => {
+  // The Windows-auth endpoint must be a clean IIS request — never attach a
+  // stale Bearer token; identity comes from the IIS Windows Auth handshake.
+  const isWindowsAuth = (config.url || '').includes('/auth/windows')
+
   // Session token (Windows auth) takes priority over persistent admin token
   const token = sessionStorage.getItem('auth_token') || localStorage.getItem('auth_token')
-  if (token) {
+  if (token && !isWindowsAuth) {
     config.headers.Authorization = `Bearer ${token}`
   }
 
