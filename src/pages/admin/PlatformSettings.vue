@@ -21,6 +21,33 @@
         </div>
       </div>
 
+      <!-- Logo -->
+      <div class="card space-y-4">
+        <h2 class="font-semibold text-gray-900 border-b border-gray-100 pb-3">{{ $t('admin.logo') }}</h2>
+
+        <div class="flex items-center gap-4">
+          <div class="w-20 h-20 rounded-xl border border-gray-200 bg-gray-50 flex items-center justify-center overflow-hidden shrink-0">
+            <img v-if="currentLogoUrl" :src="currentLogoUrl" alt="logo" class="w-full h-full object-contain" />
+            <PhotoIcon v-else class="w-8 h-8 text-gray-300" />
+          </div>
+
+          <div class="space-y-2">
+            <input
+              ref="fileInput"
+              type="file"
+              accept="image/png,image/jpeg,image/svg+xml"
+              class="hidden"
+              @change="onLogoSelected"
+            />
+            <button type="button" class="btn-secondary" :disabled="uploadingLogo" @click="fileInput?.click()">
+              <ArrowPathIcon v-if="uploadingLogo" class="w-4 h-4 animate-spin" />
+              {{ uploadingLogo ? $t('common.loading') : $t('admin.upload_logo') }}
+            </button>
+            <p class="text-xs text-gray-400">{{ $t('admin.logo_hint') }}</p>
+          </div>
+        </div>
+      </div>
+
       <!-- Theme Colors -->
       <div class="card space-y-4">
         <h2 class="font-semibold text-gray-900 border-b border-gray-100 pb-3">Theme Colors</h2>
@@ -87,14 +114,50 @@
 </template>
 
 <script setup>
-import { ref, reactive, onMounted } from 'vue'
-import { ArrowPathIcon } from '@heroicons/vue/24/outline'
+import { ref, reactive, computed, onMounted } from 'vue'
+import { ArrowPathIcon, PhotoIcon } from '@heroicons/vue/24/outline'
 import { useToast } from 'vue-toastification'
 import { useSettingsStore } from '@/stores/settings'
+import { adminService } from '@/services/adminService'
 
 const toast         = useToast()
 const settingsStore = useSettingsStore()
 const saving        = ref(false)
+
+// ── Logo upload ─────────────────────────────────────────────────────────────
+const fileInput     = ref(null)
+const uploadingLogo = ref(false)
+const logoPreview   = ref(null) // full URL returned right after an upload
+
+// Build a displayable URL from the stored logo_path (relative to the backend's
+// /storage symlink). After an upload we use the absolute URL the API returns.
+const currentLogoUrl = computed(() => {
+  if (logoPreview.value) return logoPreview.value
+  const p = settingsStore.settings.logo_path
+  if (!p) return null
+  if (/^https?:\/\//.test(p)) return p
+  const base = (import.meta.env.VITE_API_URL || '').replace(/\/api\/?$/, '')
+  return `${base}/storage/${p}`
+})
+
+async function onLogoSelected(e) {
+  const file = e.target.files?.[0]
+  if (!file) return
+  uploadingLogo.value = true
+  try {
+    const res = await adminService.uploadLogo(file)
+    if (res.success) {
+      logoPreview.value = res.data.url
+      toast.success(res.message)
+      await settingsStore.fetchPublicSettings() // refresh logo_path app-wide
+    }
+  } catch (err) {
+    toast.error(err.response?.data?.message || 'Failed to upload logo')
+  } finally {
+    uploadingLogo.value = false
+    e.target.value = '' // allow re-selecting the same file
+  }
+}
 
 const form = reactive({
   platform_name_en:            '',

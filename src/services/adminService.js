@@ -34,6 +34,14 @@ export const adminService = {
     return data
   },
 
+  async uploadLogo(file) {
+    const fd = new FormData()
+    fd.append('logo', file)
+    // Let axios set the multipart boundary itself (do not force application/json).
+    const { data } = await api.post('/admin/settings/logo', fd)
+    return data
+  },
+
   // Appreciations
   async getAppreciations(params = {}) {
     const { data } = await api.get('/admin/appreciations', { params })

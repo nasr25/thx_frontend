@@ -129,6 +129,8 @@
     "same_receiver_limit": "Max Appreciations to Same Person/Month",
     "email_notifications": "Email Notifications",
     "save_settings": "Save Settings",
+    "logo": "Logo",
+    "logo_hint": "PNG, JPG or SVG, up to 2 MB.",
     "upload_logo": "Upload Logo",
     "logo_current": "Current Logo",
     "delete_appreciation": "Delete",

@@ -129,6 +129,8 @@
     "same_receiver_limit": "الحد الأقصى للتقدير لنفس الشخص/الشهر",
     "email_notifications": "إشعارات البريد الإلكتروني",
     "save_settings": "حفظ الإعدادات",
+    "logo": "الشعار",
+    "logo_hint": "PNG أو JPG أو SVG، حتى 2 ميجابايت.",
     "upload_logo": "رفع الشعار",
     "logo_current": "الشعار الحالي",
     "delete_appreciation": "حذف",
