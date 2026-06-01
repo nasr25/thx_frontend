@@ -12,6 +12,7 @@ export const useAuthStore = defineStore('auth', () => {
 
   const isAuthenticated   = computed(() => !!token.value && !!user.value)
   const isAdmin           = computed(() => user.value?.roles?.includes('admin') || user.value?.roles?.includes('super-admin'))
+  const isSuperAdmin      = computed(() => user.value?.roles?.includes('super-admin'))
   const isWindowsAuth     = computed(() => authMethod.value === 'windows')
   const preferredLanguage = computed(() => user.value?.preferred_language || 'en')
 
@@ -138,7 +139,7 @@ export const useAuthStore = defineStore('auth', () => {
 
   return {
     user, token, expiresAt, loading, error, authMethod,
-    isAuthenticated, isAdmin, isWindowsAuth, preferredLanguage,
+    isAuthenticated, isAdmin, isSuperAdmin, isWindowsAuth, preferredLanguage,
     windowsLogin, adminLogin, logout, fetchMe, updateLanguage, refreshToken,
   }
 })

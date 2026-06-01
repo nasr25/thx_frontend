@@ -22,6 +22,12 @@
           {{ sender?.display_name || sender?.full_name }}
         </RouterLink>
         <span class="text-xs text-gray-400">{{ $t('appreciation.heart') }}</span>
+        <span
+          v-if="reasonLabel"
+          class="text-[11px] font-medium text-indigo-700 bg-indigo-50 px-2 py-0.5 rounded-full"
+        >
+          {{ reasonLabel }}
+        </span>
       </div>
       <p v-if="appreciation.message" class="text-sm text-gray-600 mt-0.5 line-clamp-2">
         "{{ appreciation.message }}"
@@ -34,7 +40,14 @@
 
 <script setup>
 import { computed } from 'vue'
+import { useI18n } from 'vue-i18n'
 
 const props = defineProps({ appreciation: { type: Object, required: true } })
+const { locale } = useI18n()
 const sender = computed(() => props.appreciation.sender)
+const reasonLabel = computed(() => {
+  const r = props.appreciation.reason
+  if (!r) return null
+  return locale.value === 'ar' ? (r.name_ar || r.name) : r.name
+})
 </script>

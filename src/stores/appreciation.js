@@ -7,9 +7,18 @@ export const useAppreciationStore = defineStore('appreciation', () => {
   const received    = ref([])
   const sent        = ref([])
   const feed        = ref([])
+  const reasons     = ref([])
   const loading     = ref(false)
   const sendLoading = ref(false)
   const meta        = ref({})
+
+  async function fetchReasons() {
+    const res = await appreciationService.getReasons()
+    if (res.success) {
+      reasons.value = res.data
+    }
+    return reasons.value
+  }
 
   async function fetchDashboard() {
     loading.value = true
@@ -77,5 +86,5 @@ export const useAppreciationStore = defineStore('appreciation', () => {
     }
   }
 
-  return { dashboard, received, sent, feed, loading, sendLoading, meta, fetchDashboard, fetchReceived, fetchSent, fetchFeed, sendAppreciation }
+  return { dashboard, received, sent, feed, reasons, loading, sendLoading, meta, fetchDashboard, fetchReceived, fetchSent, fetchFeed, fetchReasons, sendAppreciation }
 })

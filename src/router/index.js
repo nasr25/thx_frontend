@@ -93,6 +93,12 @@ const routes = [
     component: () => import('@/pages/admin/UserManagement.vue'),
     meta: { requiresAuth: true, requiresAdmin: true, layout: 'admin' },
   },
+  {
+    path: '/admin/reasons',
+    name: 'admin-reasons',
+    component: () => import('@/pages/admin/ReasonManagement.vue'),
+    meta: { requiresAuth: true, requiresAdmin: true, requiresSuperAdmin: true, layout: 'admin' },
+  },
 
   // ── Loading screen (shown while Windows Auth is in progress) ──────────────
   {
@@ -127,6 +133,8 @@ router.beforeEach((to, from, next) => {
   if (to.meta.requiresAdmin) {
     if (!auth.isAuthenticated) return next({ name: 'admin-login' })
     if (!auth.isAdmin)         return next({ name: 'dashboard' })
+    // Super-admin-only pages (e.g. reason management): regular admins bounce to the admin dashboard.
+    if (to.meta.requiresSuperAdmin && !auth.isSuperAdmin) return next({ name: 'admin-dashboard' })
     return next()
   }
 

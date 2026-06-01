@@ -84,7 +84,7 @@ import { useI18n } from 'vue-i18n'
 import { useRouter } from 'vue-router'
 import {
   ShieldCheckIcon, HomeIcon, Cog6ToothIcon, StarIcon,
-  ClipboardDocumentListIcon, ChartBarIcon, UsersIcon,
+  ClipboardDocumentListIcon, ChartBarIcon, UsersIcon, TagIcon,
   ArrowLeftIcon, ArrowRightOnRectangleIcon
 } from '@heroicons/vue/24/outline'
 import LanguageSwitcher from '@/components/common/LanguageSwitcher.vue'
@@ -97,6 +97,7 @@ const authStore  = useAuthStore()
 const settings   = useSettingsStore()
 
 const user         = computed(() => authStore.user)
+const isSuperAdmin  = computed(() => authStore.isSuperAdmin)
 const isRtl        = computed(() => locale.value === 'ar')
 const platformName = computed(() => locale.value === 'ar' ? settings.settings.platform_name_ar : settings.settings.platform_name_en)
 
@@ -105,6 +106,8 @@ const adminNavItems = computed(() => [
   { to: '/admin/settings',      label: t('admin.settings'),                icon: Cog6ToothIcon },
   { to: '/admin/appreciations', label: t('admin.appreciation_management'), icon: StarIcon },
   { to: '/admin/users',         label: t('admin.user_management'),         icon: UsersIcon },
+  // Reason management is super-admin only.
+  ...(isSuperAdmin.value ? [{ to: '/admin/reasons', label: t('admin.reason_management'), icon: TagIcon }] : []),
   { to: '/admin/activity-logs', label: t('admin.activity_logs'),           icon: ClipboardDocumentListIcon },
   { to: '/admin/analytics',     label: t('admin.analytics'),               icon: ChartBarIcon },
 ])

@@ -31,6 +31,40 @@
         </div>
       </div>
 
+      <!-- Reason (required) -->
+      <div>
+        <label class="label">
+          {{ $t('appreciation.reason_label') }}
+          <span class="text-red-500">*</span>
+        </label>
+
+        <div v-if="reasonsLoading" class="py-2">
+          <LoadingSpinner />
+        </div>
+
+        <p v-else-if="reasons.length === 0" class="text-sm text-gray-400 py-2">
+          {{ $t('appreciation.no_reasons') }}
+        </p>
+
+        <div v-else class="space-y-2 mt-1">
+          <label
+            v-for="r in reasons"
+            :key="r.id"
+            class="flex items-center gap-3 p-3 rounded-xl border cursor-pointer transition-colors"
+            :class="reasonId === r.id ? 'border-indigo-500 bg-indigo-50' : 'border-gray-200 hover:bg-gray-50'"
+          >
+            <input
+              type="radio"
+              name="appreciation-reason"
+              class="w-4 h-4 text-indigo-600 focus:ring-indigo-500"
+              :value="r.id"
+              v-model="reasonId"
+            />
+            <span class="text-sm text-gray-700">{{ isRtl ? (r.name_ar || r.name) : r.name }}</span>
+          </label>
+        </div>
+      </div>
+
       <!-- Message -->
       <div>
         <label class="label">{{ $t('appreciation.message_label') }}</label>
@@ -74,7 +108,7 @@
       <button class="btn-secondary" @click="show = false">{{ $t('common.cancel') }}</button>
       <button
         class="btn-primary"
-        :disabled="loading || remaining === 0"
+        :disabled="loading || remaining === 0 || !reasonId"
         @click="handleSend"
       >
         <ArrowPathIcon v-if="loading" class="w-4 h-4 animate-spin" />
@@ -90,6 +124,7 @@ import { useI18n } from 'vue-i18n'
 import { StarIcon, InformationCircleIcon, ArrowPathIcon } from '@heroicons/vue/24/outline'
 import { useToast } from 'vue-toastification'
 import AppModal from '@/components/common/AppModal.vue'
+import LoadingSpinner from '@/components/common/LoadingSpinner.vue'
 import { useAppreciationStore } from '@/stores/appreciation'
 import { useAuthStore } from '@/stores/auth'
 
@@ -99,7 +134,7 @@ const props = defineProps({
 })
 const emit = defineEmits(['update:modelValue', 'sent'])
 
-const { locale } = useI18n()
+const { t, locale } = useI18n()
 const toast      = useToast()
 const apprStore  = useAppreciationStore()
 const authStore  = useAuthStore()
@@ -107,8 +142,11 @@ const authStore  = useAuthStore()
 const show     = computed({ get: () => props.modelValue, set: (v) => emit('update:modelValue', v) })
 const message  = ref('')
 const isPublic = ref(true)
+const reasonId = ref(null)
+const reasonsLoading = ref(false)
 const loading  = computed(() => apprStore.sendLoading)
 const isRtl    = computed(() => locale.value === 'ar')
+const reasons  = computed(() => apprStore.reasons)
 
 const remaining = computed(() => {
   const dashboard = apprStore.dashboard
@@ -116,14 +154,28 @@ const remaining = computed(() => {
   return dashboard.stats.monthly_remaining ?? null
 })
 
-watch(() => props.modelValue, (val) => {
-  if (val) { message.value = ''; isPublic.value = true }
+watch(() => props.modelValue, async (val) => {
+  if (val) {
+    message.value = ''
+    isPublic.value = true
+    reasonId.value = null
+    // Load the reason list lazily the first time the modal opens.
+    if (apprStore.reasons.length === 0) {
+      reasonsLoading.value = true
+      try { await apprStore.fetchReasons() } finally { reasonsLoading.value = false }
+    }
+  }
 })
 
 async function handleSend() {
+  if (!reasonId.value) {
+    toast.error(t('appreciation.reason_required'))
+    return
+  }
   try {
     await apprStore.sendAppreciation({
       receiver_id: props.employee?.id,
+      reason_id: reasonId.value,
       message: message.value.trim() || null,
       is_public: isPublic.value,
     })

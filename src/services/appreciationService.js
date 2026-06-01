@@ -6,6 +6,11 @@ export const appreciationService = {
     return data
   },
 
+  async getReasons() {
+    const { data } = await api.get('/appreciations/reasons')
+    return data
+  },
+
   async getReceived(params = {}) {
     const { data } = await api.get('/appreciations/received', { params })
     return data

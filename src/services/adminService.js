@@ -45,6 +45,27 @@ export const adminService = {
     return data
   },
 
+  // Appreciation reasons (super-admin only)
+  async getReasons() {
+    const { data } = await api.get('/admin/reasons')
+    return data
+  },
+
+  async createReason(payload) {
+    const { data } = await api.post('/admin/reasons', payload)
+    return data
+  },
+
+  async updateReason(id, payload) {
+    const { data } = await api.put(`/admin/reasons/${id}`, payload)
+    return data
+  },
+
+  async deleteReason(id) {
+    const { data } = await api.delete(`/admin/reasons/${id}`)
+    return data
+  },
+
   // Activity logs
   async getActivityLogs(params = {}) {
     const { data } = await api.get('/admin/activity-logs', { params })
